@@ -2,6 +2,7 @@ PwniumOS
 ========
 
 PwniumOS aims to be a complete, free and fast operating system . A short list of things possible with PwniumOS :
+
 32-bits protected mode.
 Pre-emptive multitasking & multi-threading
 Memory management
