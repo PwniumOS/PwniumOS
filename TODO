@@ -8,4 +8,4 @@
 - Setup _IVT_
 - ASM wrappers (in, inb, out, outb)
 - Setup _TextMode_
-- Setup _Paging_
+- Enable _Paging_
