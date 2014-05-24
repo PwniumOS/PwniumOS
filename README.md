@@ -5,7 +5,7 @@ PwniumOS aims to be a complete, free and fast operating system . A short list of
 
 - 32-bits protected mode.
 - Pre-emptive multitasking & multi-threading
-Memory management
+- Memory management
 - FAT32 file system and large disk support (LBA)
 - Long file names support.
 - Easy multiboot with other operating systems (Windows,Linux...)
