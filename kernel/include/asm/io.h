@@ -2,25 +2,25 @@
 #define IO_PWN
 #include <types.h>
 
-void outb(uint16 port, uint8 value);
-uint8 inb(uint16 port);
-uint16 inw(uint16 port);
+void outb(uint16_t port, uint8_t value);
+uint8_t inb(uint16_t port);
+uint16_t inw(uint16_t port);
 
-void outb(uint16 port, uint8 value)
+void outb(uint16_t port, uint8_t value)
 {
     asm volatile ("outb %1, %0" : : "dN" (port), "a" (value));
 }
 
-uint8 inb(uint16 port)
+uint8_t inb(uint16_t port)
 {
-    uint8 ret;
+    uint8_t ret;
     asm volatile("inb %1, %0" : "=a" (ret) : "dN" (port));
     return ret;
 }
 
-uint16 inw(uint16 port)
+uint16_t inw(uint16_t port)
 {
-    uint16 ret;
+    uint16_t ret;
     asm volatile ("inw %1, %0" : "=a" (ret) : "dN" (port));
     return ret;
 }

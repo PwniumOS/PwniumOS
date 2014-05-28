@@ -12,17 +12,20 @@ dd MULTIBOOT_HEADER_FLAGS
 dd MULTIBOOT_CHECKSUM
 
 
-SECTION .text
+section .text
 	GLOBAL start
 	EXTERN main
 
 	start:
-		mov esp, stack
-		push ebx ; multiboot header
-		call main
-	    jmp $
+	mov esp, stack
+	push esp ;
+	push eax ;
+	push ebx ; multiboot header
+	call main ; main(multiboot*, int eax, void *esp)
+	hlt
+    jmp $
 
 
-SECTION .bss
+section .bss
 	resb 8192  ; 8KB
 stack:

@@ -4,4 +4,4 @@ export LD=ld
 export RM=rm
 export QEMU=qemu-system-i386
 export NASM=nasm
-export BUILD_DIR:=$(PWD)/build
+export BUILD_DIR:=$(PWD)/build/

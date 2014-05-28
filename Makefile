@@ -15,4 +15,4 @@ kernel:
 
 
 qemu-test: kernel
-	$(QEMU) -kernel $(BUILD_DIR)/kernel
+	$(QEMU) -kernel $(BUILD_DIR)/kernel 
