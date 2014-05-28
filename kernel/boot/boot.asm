@@ -18,6 +18,8 @@ section .text
 
 	start:
 	mov esp, stack
+
+	cli
 	push esp ;
 	push eax ;
 	push ebx ; multiboot header
