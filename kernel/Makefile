@@ -9,8 +9,9 @@ export ASFLAGS=-f elf
 
 export WARNING=-Wall -Wextra -Wno-unused-function -Wno-unused-parameter
 
-SOURCES=idt.o gdt.o boot.o main.o isr.o lib/lib.o monitor/monitor.o
+SOURCES=idt.o gdt.o boot.o main.o isr.o
 SUBDIRS=monitor lib
+SUBDIRSOBJS=lib/lib.o monitor/monitor.o
 
 .PHONY: all
 all: kernel
@@ -18,6 +19,7 @@ all: kernel
 .PHONY: clean
 clean:
 	$(MAKE) -C monitor clean
+	$(MAKE) -C lib clean
 	-rm kernel
 	-rm *.o
 
@@ -29,7 +31,7 @@ subdirs:
 	done
 
 kernel: $(SOURCES) subdirs
-	$(LD) $(LDFLAGS) $(SOURCES) -o $@
+	$(LD) $(LDFLAGS) $(SOURCES) $(SUBDIRSOBJS) -o $@
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
