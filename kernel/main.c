@@ -1,11 +1,11 @@
-#include <monitor.h>
-#include <vga.h>
 #include <multiboot.h>
+#include <printf.h>
+#include <gdt.h>
+#include <idt.h>
 
-
-dump_mmap(multiboot_memory_map_t *mmap)
+void dump_mmap(multiboot_memory_map_t *mmap)
 {
-    mprintf ("base_addr = 0x%x%x,"
+    printf("base_addr = 0x%x%x,"
     " length = 0x%x%x, type = 0x%x\n",
     mmap->addr >> 32,
     mmap->addr & 0xffffffff,
@@ -15,18 +15,16 @@ dump_mmap(multiboot_memory_map_t *mmap)
 }
 void dump_mboot(multiboot_info_t *mboot)
 {
-    if (mboot->flags & MULTIBOOT_INFO_CMDLINE)
-        mprintf("Command Line: %s\n", mboot->cmdline); // not used yet
-    if (mboot->flags & MULTIBOOT_INFO_MEMORY)
-    {
-        mprintf("Low Memory: %uKb\n", mboot->mem_lower);
-        mprintf("Upper Memory: %uKb\n", mboot->mem_upper);
+    //if (mboot->flags & MULTIBOOT_INFO_CMDLINE)
+    //    printf("Command Line: %s\n", mboot->cmdline);
+    if (mboot->flags & MULTIBOOT_INFO_MEMORY) {
+        printf("Low Memory: %uKb\n", mboot->mem_lower);
+        printf("Upper Memory: %uKb\n", mboot->mem_upper);
     }
 
-    if (mboot->flags & MULTIBOOT_INFO_MEM_MAP)
-    {
+    if (mboot->flags & MULTIBOOT_INFO_MEM_MAP) {
         multiboot_memory_map_t *mmap = mboot->mmap_addr;
-        mprintf("Memory Map: \n");
+        printf("Memory Map: \n");
         while ((unsigned long) mmap < mboot->mmap_addr + mboot->mmap_length) {
             dump_mmap(mmap);
             mmap = (multiboot_memory_map_t *) ((unsigned long) mmap + mmap->size + sizeof (mmap->size));
@@ -34,13 +32,18 @@ void dump_mboot(multiboot_info_t *mboot)
     }
 }
 
-int main(multiboot_info_t *mboot, int magic) // remember interrupt are disabled 
+void main(multiboot_info_t *mboot, int magic)
 {
     monitor_clear();
-    monitor_set_color(VGA_COLOR(COLOR_RED, COLOR_BLACK));
-    monitor_put_string("PwniumOS\n");
-    monitor_set_color(VGA_GREY_ON_BLACK);
-    monitor_put_string("Booting...\n");
+    printf("Booting...\n");
+
     dump_mboot(mboot);
-    return 0;
+
+    printf("Initializing GDT\n");
+    gdt_init();
+
+    printf("Initializing IDT\n");
+    idt_init();
+
+    int x = 1/0; // Test interrupt
 }

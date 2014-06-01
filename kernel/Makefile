@@ -1,29 +1,38 @@
-include ../Makefile.inc
+export CC=gcc
+export CFLAGS=-std=c99 -finline-functions -fno-stack-protector -ffreestanding -m32 -I $(PWD)/include
 
-SOURCES=boot/boot.o main.o monitor/monitor.o
+export LD=ld
+export LDFLAGS=-melf_i386 -Tlink.ld
 
-LDFLAGS+=-melf_i386 -Tlink.ld
-ASFLAGS+=-f elf
-CFLAGS+=-I $(PWD)/include
+export AS=nasm
+export ASFLAGS=-f elf
 
+export WARNING=-Wall -Wextra -Wno-unused-function -Wno-unused-parameter
 
-SUBDIRS=boot monitor
+SOURCES=idt.o gdt.o boot.o main.o isr.o lib/lib.o monitor/monitor.o
+SUBDIRS=monitor lib
 
 .PHONY: all
 all: kernel
 
 .PHONY: clean
 clean:
-	$(MAKE) -C boot clean
 	$(MAKE) -C monitor clean
 	-rm kernel
+	-rm *.o
 
-.PHONY: $(SUBDIRS)
-$(SUBDIRS):
-	$(MAKE) -C $@
+.PHONY: subdirs
+subdirs:
+	for dir in $(SUBDIRS); do \
+		cd $$dir && $(MAKE); \
+		cd ..; \
+	done
 
-kernel: $(SUBDIRS) main.o
-	$(LD) $(LDFLAGS) boot/boot.o main.o monitor/monitor.o -o $@
+kernel: $(SOURCES) subdirs
+	$(LD) $(LDFLAGS) $(SOURCES) -o $@
 
-main.o: main.c
+%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
+
+%.o: %.asm
+	$(AS) $(ASFLAGS) $< -o $@

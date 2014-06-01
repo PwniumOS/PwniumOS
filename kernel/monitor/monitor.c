@@ -1,6 +1,6 @@
 #include <monitor.h>
 #include <vga.h>
-#include <asm/io.h>
+#include <io.h>
 
 uint16_t *video_memory = (uint16_t *)0xB8000;
 uint8_t cursor_x = 0;
@@ -48,7 +48,7 @@ void monitor_put_char(char c) {
         monitor_put_char_at(cursor_x, cursor_y, c);
         cursor_x++;
     }
-    
+
     if (cursor_x >= 80) {
         cursor_y++;
         cursor_x = 0;
