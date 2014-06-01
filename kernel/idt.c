@@ -25,10 +25,6 @@ char *exception_names[] = {
             "Intel reserved",
             "Coprocessor Error"
 };
-void idt_load()
-{
-    __asm__( "lidt (%0)" : : "m"(idt_p) );
-}
 
 void interrupt_handler(struct regs *r)
 {

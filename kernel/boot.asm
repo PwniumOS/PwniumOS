@@ -27,6 +27,13 @@ section .text
 	hlt
     jmp $
 
+
+global idt_load
+extern idt_p
+idt_load:
+	lidt [idt_p]
+	ret
+
 global gdt_load
 extern gp
 gdt_load:
