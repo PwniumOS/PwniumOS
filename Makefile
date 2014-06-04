@@ -1,6 +1,4 @@
-BUILD_DIR = $(PWD)/build/
-QEMU=qemu-system-i386
-
+include Makefile.inc
 
 .PHONY: all
 all: kernel
