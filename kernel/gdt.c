@@ -6,8 +6,7 @@ struct gdt_entry gdt[GPT_COUNT];
 struct gdt_ptr gp;
 
 /* Setup a descriptor in the Global Descriptor Table */
-void gdt_set_gate(int num, unsigned long base, unsigned long limit, uint8_t access, uint8_t gran)
-{
+void gdt_set_gate(int num, unsigned long base, unsigned long limit, uint8_t access, uint8_t gran) {
     gdt[num].base_low = (base & 0xFFFF);
     gdt[num].base_middle = (base >> 16) & 0xFF;
     gdt[num].base_high = (base >> 24) & 0xFF;
@@ -19,8 +18,7 @@ void gdt_set_gate(int num, unsigned long base, unsigned long limit, uint8_t acce
     gdt[num].access = access;
 }
 
-void gdt_init()
-{
+void gdt_init() {
     uint8_t access = 0, gran = 0;
     gp.limit = (sizeof(struct gdt_entry) * GPT_COUNT) - 1;
     gp.base = &gdt;
