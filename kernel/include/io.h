@@ -1,27 +1,24 @@
-#ifndef IO_PWN
-#define IO_PWN
+#ifndef _IO_PWN
+#define _IO_PWN
+
 #include <types.h>
 
-void outb(uint16_t port, uint8_t value);
-uint8_t inb(uint16_t port);
-uint16_t inw(uint16_t port);
-
-void outb(uint16_t port, uint8_t value)
+static inline void outb(uint16_t port, uint8_t value)
 {
-    __asm__("outb %0, %1" : : "dN" (port), "a" (value));
+    __asm__ __volatile__("outb %0, %1" : : "dN" (port), "a" (value));
 }
 
-uint8_t inb(uint16_t port)
+static inline uint8_t inb(uint16_t port)
 {
     uint8_t ret;
-    __asm__("inb %0, %1" : "=a" (ret) : "dN" (port));
+    __asm__ __volatile__("inb %0, %1" : "=a" (ret) : "dN" (port));
     return ret;
 }
 
-uint16_t inw(uint16_t port)
+static inline uint16_t inw(uint16_t port)
 {
     uint16_t ret;
-    __asm__("inw %0, %1" : "=a" (ret) : "dN" (port));
+    __asm__ __volatile__("inw %0, %1" : "=a" (ret) : "dN" (port));
     return ret;
 }
 
