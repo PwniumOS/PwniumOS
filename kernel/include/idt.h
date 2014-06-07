@@ -1,3 +1,6 @@
+#ifndef _IDT_PWN
+#define _IDT_PWN
+
 #include <types.h>
 
 #define IDT_PRESENT 128
@@ -39,18 +42,29 @@ struct idt_ptr
     uint32_t base;
 } __attribute__((packed));
 
-/* This defines what the stack looks like after an ISR was running */
-struct regs
+
+struct isr_state
 {
-    unsigned int gs, fs, es, ds;      /* pushed the segs last */
-    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;  /* pushed by 'pusha' */
-    unsigned int int_no, err_code;    /* our 'push byte #' and ecodes do this */
-    unsigned int eip, cs, eflags, useresp, ss;   /* pushed by the processor automatically */
+    unsigned int gs, fs, es, ds;
+    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;
+    unsigned int int_no, err_code;
+    unsigned int eip, cs, eflags;
+    unsigned int useresp, ss; // thos are valid only if a task switch occurs
 };
 
 
 void idt_init();
-void interrupt_handler(struct regs *r);
+void interrupt_handler(struct isr_state *);
 extern void idt_load();
 extern void isr0();
 extern void isr1();
+
+static inline void interrupt_disable() {
+    __asm__ __volatile__("cli");
+}
+
+static inline void interrupt_enable() {
+    __asm__ __volatile__("sti");
+}
+
+#endif

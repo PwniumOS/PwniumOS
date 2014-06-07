@@ -1,4 +1,8 @@
+#ifndef _VGA_PWN
+#define _VGA_PWN
+
 #define VGA_GREY_ON_BLACK (COLOR_LIGHT_GREY | COLOR_BLACK << 4)
+#define VGA_RED_ON_BLACK (COLOR_RED | COLOR_BLACK << 4)
 #define VGA_WHITE_ON_BLACK (COLOR_WHITE | COLOR_BLACK << 4)
 #define VGA_BLACK_ON_WHITE (COLOR_BLACK | COLOR_WHITE << 4)
 #define VGA_COLOR(a, b) (a | b << 4)
@@ -23,3 +27,5 @@ enum vga_color
 	COLOR_LIGHT_BROWN = 14,
 	COLOR_WHITE = 15,
 };
+
+#endif

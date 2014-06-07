@@ -1,5 +1,5 @@
-#ifndef TYPES_PWN
-#define TYPES_PWN
+#ifndef _TYPES_PWN
+#define _TYPES_PWN
 
 #define NULL 0x0
 
