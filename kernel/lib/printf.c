@@ -1,5 +1,6 @@
 #include <string.h>
 #include <monitor.h>
+#include <vga.h>
 #include <stdarg.h>
 #include <printf.h>
 
@@ -293,4 +294,17 @@ int printf(const char *fmt, ...)
 	rv = vprintf(fmt, args);
 	va_end(args);
 	return rv;
+}
+
+void panic(const char *fmt, ...)
+{
+	va_list args;
+	int rv;
+
+	monitor_set_color(VGA_RED_ON_BLACK);
+	va_start(args, fmt);
+	rv = vprintf(fmt, args);
+	va_end(args);
+	__asm__("cli");
+	__asm__("hlt");
 }
