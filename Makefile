@@ -10,10 +10,9 @@ clean:
 
 .PHONY: kernel
 kernel:
-	cd kernel && $(MAKE)
-	cd ..
+	cd kernel && $(MAKE) && cd ..
 	mv kernel/kernel $(BUILD_DIR)
 
-
+.PHONY: qemu-test
 qemu-test: kernel
 	$(QEMU) -kernel $(BUILD_DIR)/kernel

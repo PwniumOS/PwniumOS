@@ -1,6 +1,6 @@
 include Makefile.common
 
-SOURCES=idt.o gdt.o boot.o main.o isr.o
+SOURCES=idt.o gdt.o boot.o main.o isr.o irq.o timer.o
 SUBDIRS=monitor lib
 SUBDIRSOBJS=lib/lib.o monitor/monitor.o
 
@@ -11,7 +11,6 @@ all: kernel
 clean:
 	$(MAKE) -C monitor clean
 	$(MAKE) -C lib clean
-	-rm kernel
 	-rm *.o
 
 .PHONY: subdirs
