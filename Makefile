@@ -16,3 +16,17 @@ kernel:
 .PHONY: qemu-test
 qemu-test: kernel
 	$(QEMU) -kernel $(BUILD_DIR)/kernel
+
+.PHONY: bochs-test
+bochs-test: image-update
+	$(BOCHS) -q
+
+.PHONY: image-update
+image-update: kernel
+	-sudo umount $(TMP_MOUNT_POINT) # Umount everything if it's already mounted ;)
+	-sudo losetup -d /dev/loop1     #
+	sudo losetup /dev/loop1 $(DISK_IMAGE)
+	sudo mount -o loop /dev/loop1 $(TMP_MOUNT_POINT)
+	sudo cp $(BUILD_DIR)/kernel $(TMP_MOUNT_POINT)
+	sudo umount $(TMP_MOUNT_POINT)
+	sudo losetup -d /dev/loop1
