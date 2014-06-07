@@ -61,16 +61,16 @@ void idt_init() {
     idt_p.limit = (sizeof(struct idt_entry) * IDT_COUNT - 1);
 
     /* 32 Intel's defined Exceptions */
-    idt_set_gate(00, (uint32_t)isr0,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
-    idt_set_gate(01, (uint32_t)isr1,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
-    idt_set_gate(02, (uint32_t)isr2,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
-    idt_set_gate(03, (uint32_t)isr3,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
-    idt_set_gate(04, (uint32_t)isr4,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
-    idt_set_gate(05, (uint32_t)isr5,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
-    idt_set_gate(06, (uint32_t)isr6,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
-    idt_set_gate(07, (uint32_t)isr7,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
-    idt_set_gate(08, (uint32_t)isr8,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
-    idt_set_gate(09, (uint32_t)isr9,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
+    idt_set_gate( 0, (uint32_t)isr0,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
+    idt_set_gate( 1, (uint32_t)isr1,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
+    idt_set_gate( 2, (uint32_t)isr2,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
+    idt_set_gate( 3, (uint32_t)isr3,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
+    idt_set_gate( 4, (uint32_t)isr4,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
+    idt_set_gate( 5, (uint32_t)isr5,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
+    idt_set_gate( 6, (uint32_t)isr6,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
+    idt_set_gate( 7, (uint32_t)isr7,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
+    idt_set_gate( 8, (uint32_t)isr8,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
+    idt_set_gate( 9, (uint32_t)isr9,  0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
     idt_set_gate(10, (uint32_t)isr10, 0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
     idt_set_gate(11, (uint32_t)isr11, 0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
     idt_set_gate(12, (uint32_t)isr12, 0x8, IDT_PRESENT | IDT_RING0 | IDT_INTERRUPT_GATE);
