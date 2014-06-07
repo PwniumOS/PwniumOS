@@ -33,9 +33,27 @@ void monitor_put_char_at(uint8_t x, uint8_t y, char c) {
     video_memory[pos] = (color << 8) + c;
 }
 
-uint8_t monitor_make_color(uint8_t fg, uint8_t bg) { return fg | bg << 4; }
+uint8_t monitor_make_color(uint8_t fg, uint8_t bg) {
+    return fg | bg << 4;
+}
 
-inline void monitor_set_color(uint8_t c) { color = c; }
+void monitor_set_color(uint8_t c) {
+    color = c;
+}
+
+static void monitor_scroll(void)
+{
+    uint16_t blank = 0x20 | (color << 8);
+
+    memcpy (video_memory, video_memory + 80, 24 * 80 * 2);
+    /* delete last line */
+    uint16_t pos = 24 * 80;
+    for(size_t i = 0; i < 80; i++)
+    {
+        video_memory[pos + i] = blank;
+    }
+    cursor_y = 24;
+}
 
 void monitor_put_char(char c) {
 
@@ -53,89 +71,13 @@ void monitor_put_char(char c) {
         cursor_y++;
         cursor_x = 0;
     }
+    if (cursor_y > 24)
+        monitor_scroll();
     move_cursor();
 }
 
 void monitor_put_string(char *c) {
     while (*c) {
         monitor_put_char(*c++);
-    }
-}
-
-void itoa (char *buf, int base, int d)
-{
-    char *p = buf;
-    char *p1, *p2;
-    unsigned long ud = d;
-    int divisor = 10;
-
-    /* If %d is specified and D is minus, put `-' in the head. */
-    if (base == 'd' && d < 0) {
-        *p++ = '-';
-        buf++;
-        ud = -d;
-    } else if (base == 'x' || base == 'p') // TODO: add 0x in case of %p
-        divisor = 16;
-
-    /* Divide UD by DIVISOR until UD == 0. */
-    do {
-        int remainder = ud % divisor;
-
-        *p++ = (remainder < 10) ? remainder + '0' : remainder + 'a' - 10;
-    } while (ud /= divisor);
-
-    /* Terminate BUF. */
-    *p = 0;
-
-    /* Reverse BUF. */
-    p1 = buf;
-    p2 = p - 1;
-    while (p1 < p2) {
-        char tmp = *p1;
-        *p1 = *p2;
-        *p2 = tmp;
-        p1++;
-        p2--;
-    }
-}
-
-void mprintf (const char *format, ...)
-{
-    char **arg = (char **) &format;
-    int c;
-    char buf[20];
-
-    arg++;
-
-    while ((c = *format++) != 0) {
-        if (c != '%')
-            monitor_put_char(c);
-        else {
-            char *p;
-
-            c = *format++;
-            switch (c) {
-            case 'd':
-            case 'u':
-            case 'x':
-                itoa (buf, c, *((int *) arg++));
-                p = buf;
-                goto string;
-                break;
-
-            case 's':
-                p = *arg++;
-                if (! p)
-                    p = "(null)";
-string:
-                while (*p)
-                    monitor_put_char(*p++);
-                break;
-
-            default:
-                monitor_put_char(*((int *) arg++));
-                break;
-            }
-        }
     }
 }
