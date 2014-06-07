@@ -23,9 +23,10 @@ section .text
 	push eax ;
 	push ebx ; multiboot header
 	call main ; main(multiboot*, int eax, void *esp)
-	cli
-	hlt
-    jmp $
+
+	hang:
+	nop
+	jmp hang
 
 
 global idt_load
