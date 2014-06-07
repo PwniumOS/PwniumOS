@@ -3,8 +3,7 @@
 #include <gdt.h>
 #include <idt.h>
 
-void dump_mmap(multiboot_memory_map_t *mmap)
-{
+void dump_mmap(multiboot_memory_map_t *mmap) {
     printf("base_addr = 0x%x%x,"
     " length = 0x%x%x, type = 0x%x\n",
     mmap->addr >> 32,
@@ -13,8 +12,8 @@ void dump_mmap(multiboot_memory_map_t *mmap)
     mmap->len & 0xffffffff,
     (unsigned) mmap->type);
 }
-void dump_mboot(multiboot_info_t *mboot)
-{
+
+void dump_mboot(multiboot_info_t *mboot) {
     //if (mboot->flags & MULTIBOOT_INFO_CMDLINE)
     //    printf("Command Line: %s\n", mboot->cmdline);
     if (mboot->flags & MULTIBOOT_INFO_MEMORY) {
@@ -32,8 +31,7 @@ void dump_mboot(multiboot_info_t *mboot)
     }
 }
 
-void main(multiboot_info_t *mboot, int magic)
-{
+void main(multiboot_info_t *mboot, int magic, void *esp) {
     monitor_clear();
     printf("Booting...\n");
 
@@ -45,5 +43,13 @@ void main(multiboot_info_t *mboot, int magic)
     printf("Initializing IDT\n");
     idt_init();
 
-    int x = 1/0; // Test interrupt
+    printf("Initializing IRQ\n");
+    irq_init();
+
+    printf("Initializing Timer\n");
+    timer_init();
+
+    //interrupt_enable();
+    __asm__("int 0x3");
+
 }
