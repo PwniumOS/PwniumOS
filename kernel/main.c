@@ -49,7 +49,6 @@ void main(multiboot_info_t *mboot, int magic, void *esp) {
     printf("Initializing Timer\n");
     timer_init();
 
-    //interrupt_enable();
-    __asm__("int 0x3");
+    interrupt_enable();
 
 }
