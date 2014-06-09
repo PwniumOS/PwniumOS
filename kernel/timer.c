@@ -1,7 +1,9 @@
 #include <io.h>
 
+uint32_t tick = 0;
+
 void timer_tick(struct isr_state *r) {
-    printf("Tick..\n");
+    printf("%d Tick..\n", tick++);
 }
 
 void timer_init() {
