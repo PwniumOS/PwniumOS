@@ -1,0 +1,9 @@
+- ~~Booloader (Grub)~~
+- RTC
+- ~~IRQ~~ (Partially)
+- ~~Setup _GDT_~~
+- Setup _LDT_
+- ~~Setup _IDT_~~
+- ~~ASM wrappers (in, inb, out, outb)~~
+- Setup _TextMode_
+- Enable _Paging_
