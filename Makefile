@@ -13,12 +13,12 @@ kernel:
 	cd kernel && $(MAKE) && cd ..
 	mv kernel/kernel $(BUILD_DIR)
 
-.PHONY: qemu-test
-qemu-test: kernel
+.PHONY: qemu-run
+qemu-run: kernel
 	$(QEMU) -kernel $(BUILD_DIR)/kernel
 
-.PHONY: bochs-test
-bochs-test: image-update
+.PHONY: bochs-run
+bochs-run: image-update
 	$(BOCHS) -q
 
 .PHONY: image-update
